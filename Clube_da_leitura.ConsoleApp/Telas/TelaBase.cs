@@ -20,9 +20,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
         {
             Console.WriteLine("Digite 1 para inserir novo registro");
             Console.WriteLine("Digite 2 para visualizar registros");
-            Console.WriteLine("Digite 3 para editar um registro");
-            Console.WriteLine("Digite 4 para excluir um registro");
-
+            Console.WriteLine("Digite 3 para excluir um registro");
+            Console.WriteLine("Digite 4 para editar um registro");
             Console.WriteLine("Digite S para Voltar");
             Console.WriteLine();
 
