@@ -12,11 +12,17 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         public Revista revista;
         public DateTime dataCriacao;
         public DateTime dataVencimento;
+        public bool statusDevolucao;
+
         private static int idEstatico = 1;
         protected void AtribuirId()
         {
             this.id = idEstatico;
             idEstatico++;
+        }
+        public Emprestimo (int id)
+        {
+            this.id = id;
         }
         public Emprestimo(Amigo amigoEmprestimo, Revista revista, DateTime dataCriacao, DateTime dataVencimento)
         {
@@ -24,6 +30,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
             this.revista = revista;
             this.dataCriacao = dataCriacao;
             this.dataVencimento = dataVencimento;
+            this.statusDevolucao = false;
             AtribuirId();
         }
                 

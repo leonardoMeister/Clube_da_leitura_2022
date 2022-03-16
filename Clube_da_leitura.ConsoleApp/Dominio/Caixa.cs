@@ -13,11 +13,17 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         public int numero;
 
         public List<Revista> listaRevistasNaCaixa;
+        
         private static int idEstatico = 1;
         protected void AtribuirId()
         {
             this.id = idEstatico;
             idEstatico++;
+        }
+
+        public Caixa(int id)
+        {
+            this.id = id;
         }
         public Caixa(string corCaixa, string etiqueta, int numero)
         {
@@ -26,6 +32,18 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
             this.numero = numero;
             this.listaRevistasNaCaixa = new List<Revista>();
             AtribuirId();
+        }
+
+        public void AdicionarRevistaNaCaixa(Revista rev)
+        {
+            listaRevistasNaCaixa.Add(rev);
+        }
+        public void RemoverRevistadaCaixa(Revista rev)
+        {
+            if(listaRevistasNaCaixa.Count > 0)
+            {
+                listaRevistasNaCaixa.Remove(rev);
+            }
         }
     }
 }

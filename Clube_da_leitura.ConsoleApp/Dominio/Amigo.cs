@@ -21,6 +21,14 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
             this.id = idEstatico;
             idEstatico++;
         }
+
+        public bool PodeEmprestarRevista()
+        {
+            if (revistaEmprestada == null) return true;
+            else return false;
+            
+        }
+
         public Amigo(string nome, string nomeResponsavel, string telefone, string endereco)
         {
             this.nome = nome;
@@ -28,6 +36,10 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
             this.telefone = telefone;
             this.endereco = endereco;
             AtribuirId();
+        }
+        public Amigo(int id)
+        {
+            this.id = id;
         }
 
         public bool ContemUmaRevistaEmEmprestimo()

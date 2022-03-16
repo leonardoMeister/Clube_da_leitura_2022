@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Clube_da_leitura.ConsoleApp.Controlador
 {
-    public  class ControladorCaixa : Controlador<Caixa>
+    public class ControladorCaixa : Controlador<Caixa>
     {
 
     }

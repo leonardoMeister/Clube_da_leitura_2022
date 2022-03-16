@@ -10,8 +10,8 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
     {
         public string tipoColecao;
         public int numeroEdicao;
-        public DateTime AnoImpressao;
-        public bool statusEmprestadaGuardada;
+        public DateTime dataAnoImpressao;
+        public bool statusGuardada;
 
         public Caixa caixaOndeFicaGuardada;
         private static int idEstatico = 1;
@@ -20,12 +20,21 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
             this.id = idEstatico;
             idEstatico++;
         }
-        public Revista(string tipoColecao, int numeroEdicao, DateTime anoImpressao, bool statusEmprestadaGuardada)
+        public bool RevistaPodeSerEmprestada()
+        {
+            if (statusGuardada) return true;
+            return false;
+        }
+        public Revista(int id)
+        {
+            this.id = id;
+        }
+        public Revista(string tipoColecao, int numeroEdicao, DateTime anoImpressao)
         {
             this.tipoColecao = tipoColecao;
             this.numeroEdicao = numeroEdicao;
-            AnoImpressao = anoImpressao;
-            this.statusEmprestadaGuardada = statusEmprestadaGuardada;
+            dataAnoImpressao = anoImpressao;
+            this.statusGuardada = true;
             AtribuirId();
         }
 

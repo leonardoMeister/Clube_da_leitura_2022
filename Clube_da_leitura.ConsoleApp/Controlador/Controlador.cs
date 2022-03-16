@@ -33,6 +33,14 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
             return lista;
         }
 
+        public bool ExisteRegistrosNaLista()
+        {
+            if (lista.Count > 0)
+            {
+                return false;
+            }else return true;
+        }
+
         public T SelecionarRegistroPorId(T item)
         {
             return lista[lista.FindIndex(x => x.id == item.id)];

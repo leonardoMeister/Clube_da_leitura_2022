@@ -14,7 +14,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
         void ExcluirRegistro();
 
-        bool VisualizarRegistros();
+        void VisualizarRegistros();
 
         string ObterOpcao();
     }

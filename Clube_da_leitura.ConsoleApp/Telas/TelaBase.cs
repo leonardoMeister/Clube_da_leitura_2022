@@ -30,6 +30,25 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
             return opcao;
         }
+
+        public virtual void ImprimirFinalizacao(string text = "", ConsoleColor cor = ConsoleColor.Red)
+        {
+            Console.WriteLine(); 
+            Console.ForegroundColor = cor;
+            if (text != "") Console.WriteLine(text);
+            Console.ResetColor();
+            Console.WriteLine("PRESS ENTER TO CONTINUE...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        public virtual void ImprimirColorido(string text, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+
         public void MontarCabecalhoTabela(string configuracaoColunasTabela, params object[] colunas)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
