@@ -13,11 +13,15 @@ namespace Clube_da_leitura.ConsoleApp
         ControladorAmigo controladorAmigo;
         ControladorRevista controladorRevista;
         ControladorEmprestimo controladorEmprestimo;
+        ControladorCategoria controladorCategoria;
+        ControladorReserva controladorReserva;
 
         TelaAmigo telaAmigo;
         TelaCaixa telaCaixa;
         TelaEmprestimo telaEmprestimo;
         TelaRevista telaRevista;
+        TelaCategoria telaCategoria;
+        TelaReserva telaReserva;
 
         public MenuPrincipal()
         {
@@ -25,13 +29,18 @@ namespace Clube_da_leitura.ConsoleApp
             controladorCaixa = new ControladorCaixa();
             controladorEmprestimo = new ControladorEmprestimo();
             controladorRevista = new ControladorRevista();
+            controladorReserva = new ControladorReserva();
+            controladorCategoria = new ControladorCategoria();
 
             AdicionarItensDeTeste();
+            
+            telaCategoria = new TelaCategoria("Tela Categoria", controladorCategoria);
+            telaReserva = new TelaReserva("Tela Reserva", controladorReserva, controladorAmigo, controladorRevista, controladorEmprestimo);
+            telaRevista = new TelaRevista("Tela Revista", controladorRevista, controladorCaixa, controladorCategoria);
 
             telaAmigo = new TelaAmigo("Tela Amigos", controladorAmigo);
             telaCaixa = new TelaCaixa("Tela Caixas", controladorCaixa);
             telaEmprestimo = new TelaEmprestimo("Tela Emprestimos", controladorEmprestimo, controladorAmigo, controladorRevista);
-            telaRevista = new TelaRevista("Tela Revista", controladorRevista, controladorCaixa);
         }
 
         public void AdicionarItensDeTeste()
@@ -84,7 +93,7 @@ namespace Clube_da_leitura.ConsoleApp
             {
                 Console.Clear();
                 Console.WriteLine("Seja Bem Vindo Ao Menu Principal.");
-                Console.WriteLine("\nInforme a opção desejada de tela:\n [1] Amigo\n [2] Revista\n [3] Caixa\n [4] Emprestimo");
+                Console.WriteLine("\nInforme a opção desejada de tela:\n [1] Amigo\n [2] Categoria\n [3] Caixa\n [4] Revista\n [5] Reserva\n [6] Emprestimo");
                 int opcao = Convert.ToInt32(Console.ReadLine());
 
                 ICadastravel tela = PegarTelaDesejada(opcao);
@@ -131,10 +140,14 @@ namespace Clube_da_leitura.ConsoleApp
                 case 1:
                     return telaAmigo;
                 case 2:
-                    return telaRevista;
+                    return telaCategoria;
                 case 3:
                     return telaCaixa;
                 case 4:
+                    return telaRevista;
+                case 5:
+                    return telaReserva;
+                case 6:
                     return telaEmprestimo;
             }
             return null;

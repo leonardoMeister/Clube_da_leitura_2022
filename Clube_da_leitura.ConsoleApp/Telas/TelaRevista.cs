@@ -12,10 +12,12 @@ namespace Clube_da_leitura.ConsoleApp.Telas
     {
         ControladorRevista controladorRevista;
         ControladorCaixa controladorCaixa;
-        public TelaRevista(string tit, ControladorRevista controladorRevista, ControladorCaixa controladorCaixa) : base(tit)
+        ControladorCategoria controladorCategoria;
+        public TelaRevista(string tit, ControladorRevista controladorRevista, ControladorCaixa controladorCaixa, ControladorCategoria controCategoria) : base(tit)
         {
             this.controladorRevista = controladorRevista;
             this.controladorCaixa = controladorCaixa;
+            this.controladorCategoria = controCategoria;
         }
         private bool VerificarRegraExistirItensControladores()
         {
