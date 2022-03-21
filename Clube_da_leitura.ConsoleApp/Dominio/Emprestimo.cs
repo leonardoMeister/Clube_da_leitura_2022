@@ -24,12 +24,12 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         {
             this.id = id;
         }
-        public Emprestimo(Amigo amigoEmprestimo, Revista revista, DateTime dataCriacao, DateTime dataVencimento)
+        public Emprestimo(Amigo amigoEmprestimo, Revista revista, DateTime dataCriacao)
         {
             this.amigoEmprestimo = amigoEmprestimo;
             this.revista = revista;
             this.dataCriacao = dataCriacao;
-            this.dataVencimento = dataVencimento;
+            this.dataVencimento = dataCriacao.AddDays(revista.categoria.quantidadeDias);
             this.statusDevolucao = false;
             AtribuirId();
         }

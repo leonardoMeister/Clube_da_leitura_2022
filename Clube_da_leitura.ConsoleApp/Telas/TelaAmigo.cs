@@ -11,12 +11,93 @@ namespace Clube_da_leitura.ConsoleApp.Telas
     public class TelaAmigo : TelaBase, ICadastravel
     {
         private ControladorAmigo controladorAmigo;
-        public TelaAmigo(string tit, ControladorAmigo controladorAmigo) : base(tit)
+        private ControladorEmprestimo controladorEmprestimo;
+        public TelaAmigo(string tit, ControladorAmigo controladorAmigo, ControladorEmprestimo controladorEmprestimo) : base(tit)
         {
             this.controladorAmigo = controladorAmigo;
+            this.controladorEmprestimo = controladorEmprestimo;
         }
 
         public void EditarRegistro()
+        {
+
+            int opcao = PegarOpcaoEdicaoAmigo();
+
+            switch (opcao)
+            {
+                case 1:
+                    EdicaoAmigo();
+                    break;
+                case 2:
+                    QuitarMultas();
+                    break;
+            }
+        }
+
+        private void QuitarMultas()
+        {
+            Console.WriteLine("Informe o Id do Amigo que deseja Quitar Dividas:");
+            int id = Convert.ToInt32(Console.ReadLine());
+            if (controladorAmigo.ExisteRegistroComEsteId(id))
+            {
+                Amigo amigo = controladorAmigo.SelecionarRegistroPorId(new Amigo(id));
+
+                if(amigo.statusPossuiMulta == false)
+                {
+                    ImprimirFinalizacao("Esse amigo não possui multa.\nTente novamente.");
+                }
+                ImprimirFinalizacao("Item localizado.", ConsoleColor.Green);
+
+                Console.WriteLine("Para Quitar uma multa o amigo deve devolver a revista.");
+                Console.WriteLine("Para Quitar uma multa o amigo deve Pagar a multa.");
+                Console.WriteLine("Para Quitar uma multa o amigo deve assinar um termo que não vai mais atrasar.");
+                Console.WriteLine("Para Quitar uma multa o amigo deve conquistar a confiança novamente.\n");
+                Console.WriteLine("Para confirmar a quitação de divida informe 'CONFIRMAR', se o amigo seguiu o protocolo de quitação de dividas.");
+                Console.WriteLine("Informe 'CONFIRMAR' em caixa alta: ");
+                string auxConfirmar = Console.ReadLine();
+                if (auxConfirmar == "CONFIRMAR")
+                {
+                    if (controladorEmprestimo.QuitarDividaPorDevolucaoDeAmigo(amigo))
+                    {
+                        amigo.statusPossuiMulta = false;
+                    }
+
+                    ImprimirFinalizacao("Divida quitada com sucesso", ConsoleColor.Green);
+                }else
+                {
+                    ImprimirFinalizacao("Codigo de confirmação invalido.\nTente novamente.");
+                    return;
+                }
+
+                ImprimirFinalizacao("Divida Quitada!", ConsoleColor.Green);
+            }
+            else
+            {
+                ImprimirFinalizacao("Nenhum item localizado na lista com o id informado.\nTente novamente");
+            }
+        }
+
+        private int PegarOpcaoEdicaoAmigo()
+        {
+            Console.Clear();
+
+            while (true)
+            {
+                Console.WriteLine("Informe A opção desejada de edição de amigo:");
+
+                Console.WriteLine("[1] Edição dados.");
+                Console.WriteLine("[2] Quitar multas.");
+                int opcao = Convert.ToInt32(Console.ReadLine());
+
+                if (opcao == 1 || opcao == 2)
+                {
+                    return opcao;
+                }
+                else ImprimirFinalizacao("Opcao invalida.\nTente novamente.");
+            }
+        }
+
+        private void EdicaoAmigo()
         {
             Console.WriteLine("Informe o Id do Amigo que deseja editar:");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -47,6 +128,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 ImprimirFinalizacao("Nenhum item localizado na lista com o id informado.\nTente novamente");
             }
         }
+
         public void ExcluirRegistro()
         {
             Console.WriteLine("Informe o Id do Amigo que deseja remover:");
@@ -85,18 +167,21 @@ namespace Clube_da_leitura.ConsoleApp.Telas
         }
         public void VisualizarRegistros()
         {
+            controladorEmprestimo.AplicarMultaEmRegistrosVencidos(controladorEmprestimo.SelecionarTodosRegistrosVencidos());
+
             Console.Clear();
             if (controladorAmigo.ExisteRegistrosNaLista())
             {
                 List<Amigo> lista = controladorAmigo.SelecionarTodosRegistros();
-                string configuracaColunasTabela = "{0,-10} | {1,-25} | {2,-25} | {3,-25} | {4,-25}";
+                string configuracaColunasTabela = "{0,-10} | {1,-15} | {2,-15} | {3,-25} | {4,-20} | {5,-15}";
 
-                MontarCabecalhoTabela(configuracaColunasTabela, "Id", "Nome", "Responsavel", "Telefone", "Endereco");
+                MontarCabecalhoTabela(configuracaColunasTabela, "Id", "Nome", "Responsavel", "Telefone", "Endereco", "Multas");
 
 
                 foreach (Amigo t in lista)
                 {
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.nome, t.nomeResponsavel, t.telefone, t.endereco);
+                    string auxMulta = (t.statusPossuiMulta) ? "Com Multa" : "Sem Multa";
+                    Console.WriteLine(configuracaColunasTabela, t.id, t.nome, t.nomeResponsavel, t.telefone, t.endereco, auxMulta);
                 }
             }
             else

@@ -14,7 +14,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         public DateTime dataVencimentoReserva;
 
         private static int idEstatico = 1;
-
+        public bool statusCancelada;
         public bool statusFoiEmprestada;
         protected void AtribuirId()
         {
@@ -28,11 +28,16 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         public Reserva(Amigo amigo, Revista rev)
         {
             this.statusFoiEmprestada = false;
+            this.statusCancelada = false;
             this.dataCriacaoReserva = DateTime.Now;
             this.dataVencimentoReserva = (DateTime.Now).AddDays(2);
             this.amigoReserva = amigo;
             this.revistaReserva = rev;
             AtribuirId();
+        }
+        public string PegarStatusReserva()
+        {
+            return "";
         }
         public bool ReservaEstaVencida()
         {
@@ -46,7 +51,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         {
             this.statusFoiEmprestada = true;
 
-            Emprestimo emp = new Emprestimo(amigoReserva, revistaReserva, DateTime.Now, dataVencimentoEmprestimo);
+            Emprestimo emp = new Emprestimo(amigoReserva, revistaReserva, DateTime.Now);
 
             return emp;
         }

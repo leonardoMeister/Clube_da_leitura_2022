@@ -30,6 +30,23 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
             }
             return listNova;
         }
+        public bool QuitarDividaPorDevolucaoDeAmigo(Amigo amigo)
+        {
+            List<Emprestimo> lista = SelecionarTodosRegistros();
+
+            foreach(Emprestimo emp in lista)
+            {
+                if(emp.statusDevolucao == false && emp.amigoEmprestimo.id == amigo.id)
+                {
+                    emp.statusDevolucao = true;
+                    emp.amigoEmprestimo.revistaEmprestada = null;
+                    emp.revista.statusGuardada = true;
+                    
+                    return true;
+                }
+            }
+            return false;
+        }
         internal List<Emprestimo> SelecionarTodosRegistrosPorMes(int mes)
         {
             List<Emprestimo> list = new List<Emprestimo>(SelecionarTodosRegistros());
@@ -50,7 +67,17 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
             {
                 if (emp.dataVencimento < DateTime.Now && emp.statusDevolucao == false) listNova.Add(emp);
             }
+            AplicarMultaEmRegistrosVencidos(listNova);
             return listNova;
+        }
+
+        internal void AplicarMultaEmRegistrosVencidos(List<Emprestimo> listaRegVencidos)
+        {
+            foreach (Emprestimo emp in listaRegVencidos)
+            {
+                emp.amigoEmprestimo.statusPossuiMulta = true;
+            }
+            return;
         }
     }
 }

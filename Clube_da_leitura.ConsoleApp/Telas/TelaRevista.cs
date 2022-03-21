@@ -95,27 +95,52 @@ namespace Clube_da_leitura.ConsoleApp.Telas
             Console.WriteLine("Informe a Data defabricação da revista: [2022/02/20]");
             string stringData = Console.ReadLine();
             DateTime data = new DateTime(Convert.ToInt32(stringData.Substring(0, 4)), Convert.ToInt32(stringData.Substring(5, 2)), Convert.ToInt32(stringData.Substring(8, 2)));
-            
-                Caixa caixa;
-                while (true)
-                {
-                    Console.Clear();
-                    Console.WriteLine("Agora Informe o Id da caixa para guardar a Revista");
-                    int id = Convert.ToInt32(Console.ReadLine());
-                    if (!controladorCaixa.ExisteRegistroComEsteId(id))
-                    {
-                        ImprimirFinalizacao("Nenhuma Caixa localizada com esse id.\nTente Novamente!");
-                        continue;
-                    }
-                    caixa = controladorCaixa.SelecionarRegistroPorId(new Caixa(id));
-                    break;
-                }
 
-                Revista rev = new Revista(colecao, numeroEdicao, data);
-                caixa.AdicionarRevistaNaCaixa(rev);
-                controladorRevista.AdicionarRegistro(rev);
-                ImprimirFinalizacao("Revista Adicionada Com Sucesso!", ConsoleColor.Green);
-            
+            Categoria categorica;
+            while (true)
+            {
+                if (controladorCategoria.SelecionarTodosRegistros().Count ==0)
+                {
+                    ImprimirFinalizacao("Não foram Encontrados Categorias cadastradas.\nTente NOvamente.");
+                    return;
+                }
+                Console.Clear();
+                Console.WriteLine("Agora Informe o Id da categoria");
+                int id = Convert.ToInt32(Console.ReadLine());
+                if (!controladorCategoria.ExisteRegistroComEsteId(id))
+                {
+                    ImprimirFinalizacao("Nenhuma Categoria localizada com esse id.\nTente Novamente!");
+                    continue;
+                }
+                categorica = controladorCategoria.SelecionarRegistroPorId(new Categoria(id));
+                break;
+            }
+
+            Caixa caixa;
+            while (true)
+            {
+                if (controladorCaixa.SelecionarTodosRegistros().Count == 0)
+                {
+                    ImprimirFinalizacao("Não foram Encontrados Caixas cadastradas.\nTente NOvamente.");
+                    return;
+                }
+                Console.Clear();
+                Console.WriteLine("Agora Informe o Id da caixa para guardar a Revista");
+                int id = Convert.ToInt32(Console.ReadLine());
+                if (!controladorCaixa.ExisteRegistroComEsteId(id))
+                {
+                    ImprimirFinalizacao("Nenhuma Caixa localizada com esse id.\nTente Novamente!");
+                    continue;
+                }
+                caixa = controladorCaixa.SelecionarRegistroPorId(new Caixa(id));
+                break;
+            }
+
+            Revista rev = new Revista(colecao, numeroEdicao, data, categorica);
+            caixa.AdicionarRevistaNaCaixa(rev);
+            controladorRevista.AdicionarRegistro(rev);
+            ImprimirFinalizacao("Revista Adicionada Com Sucesso!", ConsoleColor.Green);
+
         }
         public void VisualizarRegistros()
         {
@@ -123,15 +148,15 @@ namespace Clube_da_leitura.ConsoleApp.Telas
             if (controladorRevista.ExisteRegistrosNaLista())
             {
                 List<Revista> lista = controladorRevista.SelecionarTodosRegistros();
-                string configuracaColunasTabela = "{0,-10} | {1,-25} | {2,-25} | {3,-25} | {4,-25}";
+                string configuracaColunasTabela = "{0,-10} | {1,-25} | {2,-25} | {3,-25} | {4,-20} | {5,-15}";
 
-                MontarCabecalhoTabela(configuracaColunasTabela, "Id", "Coleção", "Numero", "Data Impressao", "Status");
+                MontarCabecalhoTabela(configuracaColunasTabela, "Id", "Coleção", "Numero", "Data Impressao", "Status", "Categoria");
 
 
                 foreach (Revista t in lista)
                 {
                     string auxStatus = (t.statusGuardada) ? "Guardada" : "Emprestada";
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.tipoColecao, t.numeroEdicao, t.dataAnoImpressao, auxStatus);
+                    Console.WriteLine(configuracaColunasTabela, t.id, t.tipoColecao, t.numeroEdicao, t.dataAnoImpressao, auxStatus, t.categoria.nomeCategoria);
                 }
             }
             else

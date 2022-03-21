@@ -37,8 +37,8 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
         {
             if (lista.Count > 0)
             {
-                return false;
-            }else return true;
+                return true;
+            }else return false;
         }
 
         public T SelecionarRegistroPorId(T item)

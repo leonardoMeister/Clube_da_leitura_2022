@@ -99,12 +99,10 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 return;
             }
 
-            Console.WriteLine("\n\nInforme a Data De devolução da revista: [2022/02/20]");
-            string stringData = Console.ReadLine();
-            DateTime dataDevolucao = new DateTime(Convert.ToInt32(stringData.Substring(0, 4)), Convert.ToInt32(stringData.Substring(5, 2)), Convert.ToInt32(stringData.Substring(8, 2)));
+
             DateTime dataCriacao = DateTime.Now;
 
-            Emprestimo emp = new Emprestimo(amigo, revista, dataCriacao, dataDevolucao);
+            Emprestimo emp = new Emprestimo(amigo, revista, dataCriacao);
             controladorEmprestimo.AdicionarRegistro(emp);
             amigo.revistaEmprestada = revista;
             revista.statusGuardada = false;
@@ -134,7 +132,6 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 case 5:
                     ImprimirListaEmprestimos(controladorEmprestimo.SelecionarTodosRegistrosVencidos());
                     break;
-
                 default:
                     throw new ArgumentException();
             }
@@ -168,7 +165,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
             {
                 Console.Clear();
                 Console.WriteLine("Informe a opçao desejada de Visualizaçao de Emprestimos: ");
-                Console.WriteLine("  [1] Todos\n  [2] Abertos\n  [3] Fechados\n  [4] Por Mês\n  [5] Vencidos");
+                Console.WriteLine("  [1] Todos\n  [2] Abertos\n  [3] Fechados\n  [4] Por Mês\n  [5] Vencidos com multa");
                 opcaoDesejada = Convert.ToInt32(Console.ReadLine());
                 if (opcaoDesejada == 1 || opcaoDesejada == 2 || opcaoDesejada == 3 || opcaoDesejada == 4 || opcaoDesejada == 5) return opcaoDesejada;
 
@@ -177,12 +174,12 @@ namespace Clube_da_leitura.ConsoleApp.Telas
         }
         private bool VerificarRegraExistirItensControladores()
         {
-            if (controladorAmigo.ExisteRegistrosNaLista())
+            if (!controladorAmigo.ExisteRegistrosNaLista())
             {
                 ImprimirFinalizacao("Para adicionar um Emprestimo precisa antes adicionar uma Revista!");
                 return true;
             }
-            else if (controladorAmigo.ExisteRegistrosNaLista())
+            else if (!controladorAmigo.ExisteRegistrosNaLista())
             {
                 ImprimirFinalizacao("Para adicionar um Emprestimo precisa antes adicionar um Amigo!");
                 return true;

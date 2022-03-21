@@ -12,7 +12,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         public string nomeResponsavel;
         public string telefone;
         public string endereco;
-
+        public bool statusPossuiMulta;
         public Revista revistaEmprestada;
 
         private static int idEstatico = 1;
@@ -24,7 +24,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
 
         public bool PodeEmprestarRevista()
         {
-            if (revistaEmprestada == null) return true;
+            if (revistaEmprestada == null && statusPossuiMulta == false) return true;
             else return false;
             
         }
@@ -35,6 +35,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
             this.nomeResponsavel = nomeResponsavel;
             this.telefone = telefone;
             this.endereco = endereco;
+            this.statusPossuiMulta = false;
             AtribuirId();
         }
         public Amigo(int id)

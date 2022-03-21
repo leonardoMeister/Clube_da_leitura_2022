@@ -12,6 +12,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         public int numeroEdicao;
         public DateTime dataAnoImpressao;
         public bool statusGuardada;
+        public Categoria categoria;
 
         public Caixa caixaOndeFicaGuardada;
         private static int idEstatico = 1;
@@ -29,11 +30,12 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         {
             this.id = id;
         }
-        public Revista(string tipoColecao, int numeroEdicao, DateTime anoImpressao)
+        public Revista(string tipoColecao, int numeroEdicao, DateTime anoImpressao, Categoria cate)
         {
             this.tipoColecao = tipoColecao;
             this.numeroEdicao = numeroEdicao;
             dataAnoImpressao = anoImpressao;
+            this.categoria = cate;
             this.statusGuardada = true;
             AtribuirId();
         }

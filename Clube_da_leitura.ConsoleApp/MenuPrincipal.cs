@@ -33,20 +33,34 @@ namespace Clube_da_leitura.ConsoleApp
             controladorCategoria = new ControladorCategoria();
 
             AdicionarItensDeTeste();
-            
+
             telaCategoria = new TelaCategoria("Tela Categoria", controladorCategoria);
             telaReserva = new TelaReserva("Tela Reserva", controladorReserva, controladorAmigo, controladorRevista, controladorEmprestimo);
             telaRevista = new TelaRevista("Tela Revista", controladorRevista, controladorCaixa, controladorCategoria);
 
-            telaAmigo = new TelaAmigo("Tela Amigos", controladorAmigo);
+            telaAmigo = new TelaAmigo("Tela Amigos", controladorAmigo,controladorEmprestimo);
             telaCaixa = new TelaCaixa("Tela Caixas", controladorCaixa);
             telaEmprestimo = new TelaEmprestimo("Tela Emprestimos", controladorEmprestimo, controladorAmigo, controladorRevista);
+
+
         }
 
         public void AdicionarItensDeTeste()
         {
 
-            Amigo m1 = new Amigo("leonardo1","Veronica1","(47) 9 9239-8644","Estrada Nova");
+            Categoria cat1 = new Categoria("Exclusividade", 1);
+            Categoria cat2 = new Categoria("Premium", 3);
+            Categoria cat3 = new Categoria("Rara", 5);
+            Categoria cat4 = new Categoria("Normal", 15);
+            Categoria cat5 = new Categoria("Livre", 30);
+
+            controladorCategoria.AdicionarRegistro(cat1);
+            controladorCategoria.AdicionarRegistro(cat2);
+            controladorCategoria.AdicionarRegistro(cat3);
+            controladorCategoria.AdicionarRegistro(cat4);
+            controladorCategoria.AdicionarRegistro(cat5);
+
+            Amigo m1 = new Amigo("leonardo1", "Veronica1", "(47) 9 9239-8644", "Estrada Nova");
             Amigo m2 = new Amigo("leonardo2", "Veronica2", "(55) 9 9239-8644", "Estrada Velha");
             Amigo m3 = new Amigo("leonardo3", "Veronica3", "(66) 9 9239-8644", "Estrada Reformada");
 
@@ -54,14 +68,14 @@ namespace Clube_da_leitura.ConsoleApp
             controladorAmigo.AdicionarRegistro(m2);
             controladorAmigo.AdicionarRegistro(m3);
 
-            Caixa c1 = new Caixa("Amarela","Etiqueta n1", 1);
+            Caixa c1 = new Caixa("Amarela", "Etiqueta n1", 1);
             Caixa c2 = new Caixa("Azul", "Etiqueta n2", 2);
 
-            Revista r1 = new Revista("Batman",1994,new DateTime(2001,03,20));
+            Revista r1 = new Revista("Batman", 1994, new DateTime(2001, 03, 20), cat5);
             controladorRevista.AdicionarRegistro(r1);
-            Revista r2 = new Revista("Robim", 1999, new DateTime(2003, 04, 09));
+            Revista r2 = new Revista("Robim", 1999, new DateTime(2003, 04, 09), cat5);
             controladorRevista.AdicionarRegistro(r2);
-            Revista r3 = new Revista("SuperMan", 1980, new DateTime(1990, 04, 09));
+            Revista r3 = new Revista("SuperMan", 1980, new DateTime(1990, 04, 09), cat3);
             controladorRevista.AdicionarRegistro(r3);
 
 
@@ -72,13 +86,13 @@ namespace Clube_da_leitura.ConsoleApp
             controladorCaixa.AdicionarRegistro(c2);
 
 
-            Emprestimo emp1 = new Emprestimo(m1,r2,DateTime.Now, new DateTime(2021, 3, 27));
+            Emprestimo emp1 = new Emprestimo(m1, r2, new DateTime(2021, 3, 27));
             emp1.statusDevolucao = true;
 
-            Emprestimo emp2 = new Emprestimo(m2, r1, DateTime.Now, new DateTime(2020, 6, 27));
+            Emprestimo emp2 = new Emprestimo(m2, r1, DateTime.Now);
             emp2.statusDevolucao = true;
 
-            Emprestimo emp3 = new Emprestimo(m3, r3, DateTime.Now, new DateTime(2022, 2, 27));
+            Emprestimo emp3 = new Emprestimo(m3, r3, new DateTime(2020, 6, 27));
             m3.revistaEmprestada = r3;
             r3.statusGuardada = false;
 
@@ -86,6 +100,22 @@ namespace Clube_da_leitura.ConsoleApp
             controladorEmprestimo.AdicionarRegistro(emp2);
             controladorEmprestimo.AdicionarRegistro(emp3);
 
+            Reserva rev1 = new Reserva(m2, r2);
+            m2.revistaEmprestada = r2;
+            r2.statusGuardada = false;
+
+
+            Reserva rev2 = new Reserva(m3, r1);
+            rev2.statusCancelada = true;
+
+            Reserva rev3 = new Reserva(m2, r3);
+            rev3.statusCancelada = true;
+
+            controladorReserva.AdicionarRegistro(rev1);
+            controladorReserva.AdicionarRegistro(rev2);
+            controladorReserva.AdicionarRegistro(rev3);
+
+            controladorEmprestimo.SelecionarTodosRegistrosVencidos();
         }
         public void IniciarMenuPrincipal()
         {
