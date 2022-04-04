@@ -32,9 +32,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                     int numeroDias = Convert.ToInt32(Console.ReadLine());
 
                     Categoria cat = controladorCategoria.SelecionarRegistroPorId(new Categoria(id));
+                    cat.EditarCategoria(nome, numeroDias);
 
-                    cat.nomeCategoria = nome;
-                    cat.quantidadeDias = numeroDias;
                     ImprimirFinalizacao("Categoria Editada Com Sucesso.", ConsoleColor.Green);
                 }
                 else ImprimirFinalizacao("Não existe registro com este ID");
@@ -89,7 +88,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
                 foreach (Categoria t in lista)
                 {
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.nomeCategoria, t.quantidadeDias);
+                    Console.WriteLine(configuracaColunasTabela, t._id, t.NomeCategoria, t.QuantidadeDias);
                 }
             }
             else

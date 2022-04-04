@@ -9,12 +9,12 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
         public bool ExcluirRegistro(int id)
         {
-            lista.RemoveAt(lista.FindIndex(x => x.id == id));
+            lista.RemoveAt(lista.FindIndex(x => x._id == id));
             return true;
         }
         public bool ExisteRegistroComEsteId(int id)
         {
-            foreach (T itens in lista) if (itens.id == id) return true;
+            foreach (T itens in lista) if (itens._id == id) return true;
             return false;
         }
 
@@ -25,7 +25,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
         public void EditarRegistro(int id, T item)
         {
-            lista[lista.FindIndex(x => x.id == id)] = item;
+            lista[lista.FindIndex(x => x._id == id)] = item;
         }
 
         public List<T> SelecionarTodosRegistros()
@@ -43,7 +43,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
         public T SelecionarRegistroPorId(T item)
         {
-            return lista[lista.FindIndex(x => x.id == item.id)];
+            return lista[lista.FindIndex(x => x._id == item._id)];
         }
     }
 }

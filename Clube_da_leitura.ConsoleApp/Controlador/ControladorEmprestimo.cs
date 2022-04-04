@@ -16,7 +16,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
             foreach (Emprestimo emp in list)
             {
-                if (emp.statusDevolucao == false) listNova.Add(emp);
+                if (emp.StatusDevolucao == false) listNova.Add(emp);
             }
             return listNova;
         }
@@ -26,7 +26,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
             List<Emprestimo> listNova = new List<Emprestimo>();
             foreach (Emprestimo emp in list)
             {
-                if (emp.statusDevolucao == true) listNova.Add(emp);
+                if (emp.StatusDevolucao == true) listNova.Add(emp);
             }
             return listNova;
         }
@@ -36,11 +36,9 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
             foreach(Emprestimo emp in lista)
             {
-                if(emp.statusDevolucao == false && emp.amigoEmprestimo.id == amigo.id)
+                if(emp.StatusDevolucao == false && emp.AmigoEmprestimo._id == amigo._id)
                 {
-                    emp.statusDevolucao = true;
-                    emp.amigoEmprestimo.revistaEmprestada = null;
-                    emp.revista.statusGuardada = true;
+                    emp.FazerDevolucaoEmprestimo();
                     
                     return true;
                 }
@@ -54,7 +52,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
             foreach (Emprestimo emp in list)
             {
-                if (emp.dataVencimento.Month == mes) listNova.Add(emp);
+                if (emp.DataVencimento.Month == mes) listNova.Add(emp);
             }
             return listNova;
         }
@@ -65,7 +63,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
 
             foreach (Emprestimo emp in list)
             {
-                if (emp.dataVencimento < DateTime.Now && emp.statusDevolucao == false) listNova.Add(emp);
+                if (emp.DataVencimento < DateTime.Now && emp.StatusDevolucao == false) listNova.Add(emp);
             }
             AplicarMultaEmRegistrosVencidos(listNova);
             return listNova;
@@ -75,7 +73,7 @@ namespace Clube_da_leitura.ConsoleApp.Controlador
         {
             foreach (Emprestimo emp in listaRegVencidos)
             {
-                emp.amigoEmprestimo.statusPossuiMulta = true;
+                emp.AmigoEmprestimo.StatusPossuiMulta = true;
             }
             return;
         }

@@ -12,12 +12,14 @@ namespace Clube_da_leitura.ConsoleApp.Telas
     {
         private ControladorAmigo controladorAmigo;
         private ControladorEmprestimo controladorEmprestimo;
+
+
         public TelaAmigo(string tit, ControladorAmigo controladorAmigo, ControladorEmprestimo controladorEmprestimo) : base(tit)
         {
             this.controladorAmigo = controladorAmigo;
             this.controladorEmprestimo = controladorEmprestimo;
         }
-
+        
         public void EditarRegistro()
         {
 
@@ -33,7 +35,6 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                     break;
             }
         }
-
         private void QuitarMultas()
         {
             Console.WriteLine("Informe o Id do Amigo que deseja Quitar Dividas:");
@@ -42,7 +43,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
             {
                 Amigo amigo = controladorAmigo.SelecionarRegistroPorId(new Amigo(id));
 
-                if(amigo.statusPossuiMulta == false)
+                if(amigo.StatusPossuiMulta == false)
                 {
                     ImprimirFinalizacao("Esse amigo não possui multa.\nTente novamente.");
                 }
@@ -59,7 +60,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 {
                     if (controladorEmprestimo.QuitarDividaPorDevolucaoDeAmigo(amigo))
                     {
-                        amigo.statusPossuiMulta = false;
+                        amigo.StatusPossuiMulta = false;
                     }
 
                     ImprimirFinalizacao("Divida quitada com sucesso", ConsoleColor.Green);
@@ -76,7 +77,6 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 ImprimirFinalizacao("Nenhum item localizado na lista com o id informado.\nTente novamente");
             }
         }
-
         private int PegarOpcaoEdicaoAmigo()
         {
             Console.Clear();
@@ -96,7 +96,6 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 else ImprimirFinalizacao("Opcao invalida.\nTente novamente.");
             }
         }
-
         private void EdicaoAmigo()
         {
             Console.WriteLine("Informe o Id do Amigo que deseja editar:");
@@ -115,11 +114,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 string endereco = Console.ReadLine();
 
                 Amigo amigo = controladorAmigo.SelecionarRegistroPorId(new Amigo(id));
-
-                amigo.nomeResponsavel = nomeResponsavel;
-                amigo.telefone = telefone;
-                amigo.nome = nome;
-                amigo.endereco = endereco;
+                amigo.EditarAmigo(nome,nomeResponsavel,telefone,endereco);
 
                 ImprimirFinalizacao("Item Editado com Sucesso!", ConsoleColor.Green);
             }
@@ -128,7 +123,6 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 ImprimirFinalizacao("Nenhum item localizado na lista com o id informado.\nTente novamente");
             }
         }
-
         public void ExcluirRegistro()
         {
             Console.WriteLine("Informe o Id do Amigo que deseja remover:");
@@ -180,8 +174,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
                 foreach (Amigo t in lista)
                 {
-                    string auxMulta = (t.statusPossuiMulta) ? "Com Multa" : "Sem Multa";
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.nome, t.nomeResponsavel, t.telefone, t.endereco, auxMulta);
+                    string auxMulta = (t.StatusPossuiMulta) ? "Com Multa" : "Sem Multa";
+                    Console.WriteLine(configuracaColunasTabela, t._id, t.Nome, t.NomeResponsavel, t.Telefone, t.Endereco, auxMulta);
                 }
             }
             else
@@ -192,5 +186,6 @@ namespace Clube_da_leitura.ConsoleApp.Telas
             ImprimirFinalizacao();
             return;
         }
+
     }
 }

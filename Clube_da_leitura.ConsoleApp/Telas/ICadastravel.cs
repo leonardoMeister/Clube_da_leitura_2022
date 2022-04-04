@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Clube_da_leitura.ConsoleApp.Telas
 {
-    public  interface ICadastravel
+
+    public interface ICadastravel
     {
         void InserirNovoRegistro();
 

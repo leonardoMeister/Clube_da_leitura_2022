@@ -46,15 +46,12 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 Console.Write("Digite o numero de edição da revista: ");
                 int numeroEdicao = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine("Informe a Data defabricação da revista: [2022/02/20]");
+                Console.WriteLine("Informe a Data de fabricação da revista: [2022/02/20]");
                 string stringData = Console.ReadLine();
                 DateTime data = new DateTime(Convert.ToInt32(stringData.Substring(0, 4)), Convert.ToInt32(stringData.Substring(5, 2)), Convert.ToInt32(stringData.Substring(8, 2)));
 
                 Revista rev = controladorRevista.SelecionarRegistroPorId(new Revista(id));
-
-                rev.tipoColecao = colecao;
-                rev.numeroEdicao = numeroEdicao;
-                rev.dataAnoImpressao = data;
+                rev.EditarRevista(colecao, numeroEdicao, data);
 
                 ImprimirFinalizacao("Item Editado com Sucesso!", ConsoleColor.Green);
             }
@@ -155,8 +152,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
                 foreach (Revista t in lista)
                 {
-                    string auxStatus = (t.statusGuardada) ? "Guardada" : "Emprestada";
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.tipoColecao, t.numeroEdicao, t.dataAnoImpressao, auxStatus, t.categoria.nomeCategoria);
+                    string auxStatus = (t.StatusGuardada) ? "Guardada" : "Emprestada";
+                    Console.WriteLine(configuracaColunasTabela, t._id, t.TipoColecao, t.NumeroEdicao, t.DataAnoImpressao, auxStatus, t.Categoria.NomeCategoria);
                 }
             }
             else

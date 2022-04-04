@@ -6,48 +6,66 @@ using System.Threading.Tasks;
 
 namespace Clube_da_leitura.ConsoleApp.Dominio
 {
-    public class Amigo: EntidadeBase
+    public class Amigo : EntidadeBase
     {
-        public string nome;
-        public string nomeResponsavel;
-        public string telefone;
-        public string endereco;
-        public bool statusPossuiMulta;
-        public Revista revistaEmprestada;
+        private string _nome;
+        private string _nomeResponsavel;
+        private string _telefone;
+        private string _endereco;
+        private bool _statusPossuiMulta;
+        private Revista _revistaEmprestada;
 
         private static int idEstatico = 1;
+
+        public Revista RevistaEmprestada { get => _revistaEmprestada;}
+        public bool StatusPossuiMulta { get => _statusPossuiMulta; set => _statusPossuiMulta = value; }
+        public string Nome { get => _nome;  }
+        public string NomeResponsavel { get => _nomeResponsavel; }
+        public string Telefone { get => _telefone;  }
+        public string Endereco { get => _endereco;  }
+
         protected void AtribuirId()
         {
-            this.id = idEstatico;
+            this._id = idEstatico;
             idEstatico++;
         }
-
         public bool PodeEmprestarRevista()
         {
-            if (revistaEmprestada == null && statusPossuiMulta == false) return true;
+            if (RevistaEmprestada == null && StatusPossuiMulta == false) return true;
             else return false;
-            
+
         }
 
         public Amigo(string nome, string nomeResponsavel, string telefone, string endereco)
         {
-            this.nome = nome;
-            this.nomeResponsavel = nomeResponsavel;
-            this.telefone = telefone;
-            this.endereco = endereco;
-            this.statusPossuiMulta = false;
+            this._nome = nome;
+            this._nomeResponsavel = nomeResponsavel;
+            this._telefone = telefone;
+            this._endereco = endereco;
+            this._statusPossuiMulta = false;
             AtribuirId();
         }
-        public Amigo(int id)
+        public void EditarAmigo(string nome, string nomeResponsavel, string telefone, string endereco)
         {
-            this.id = id;
+            this._nome = nome;
+            this._nomeResponsavel = nomeResponsavel;
+            this._telefone = telefone;
+            this._endereco = endereco;
         }
 
+        public Amigo(int id)
+        {
+            this._id = id;
+        }
         public bool ContemUmaRevistaEmEmprestimo()
         {
-            if (revistaEmprestada == null) return false;
+            if (RevistaEmprestada == null) return false;
             return true;
         }
 
+        internal void SetRevista(Revista revista)
+        {
+            this._revistaEmprestada = revista;
+        }
     }
 }

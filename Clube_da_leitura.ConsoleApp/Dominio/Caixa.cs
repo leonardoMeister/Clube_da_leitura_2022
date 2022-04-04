@@ -8,42 +8,52 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
 {
     public class Caixa : EntidadeBase
     {
-        public string corCaixa;
-        public string etiqueta;
-        public int numero;
+        private string _corCaixa;
+        private string _etiqueta;
+        private int _numero;
+        private List<Revista> _listaRevistasNaCaixa;
 
-        public List<Revista> listaRevistasNaCaixa;
-        
         private static int idEstatico = 1;
+
+        public string CorCaixa { get => _corCaixa;  }
+        public string Etiqueta { get => _etiqueta;  }
+        public int Numero { get => _numero;  }
+        public List<Revista> ListaRevistasNaCaixa { get => _listaRevistasNaCaixa;  }
+
         protected void AtribuirId()
         {
-            this.id = idEstatico;
+            this._id = idEstatico;
             idEstatico++;
         }
-
         public Caixa(int id)
         {
-            this.id = id;
+            this._id = id;
         }
         public Caixa(string corCaixa, string etiqueta, int numero)
         {
-            this.corCaixa = corCaixa;
-            this.etiqueta = etiqueta;
-            this.numero = numero;
-            this.listaRevistasNaCaixa = new List<Revista>();
+            this._corCaixa = corCaixa;
+            this._etiqueta = etiqueta;
+            this._numero = numero;
+            this._listaRevistasNaCaixa = new List<Revista>();
             AtribuirId();
         }
-
         public void AdicionarRevistaNaCaixa(Revista rev)
         {
-            listaRevistasNaCaixa.Add(rev);
+            ListaRevistasNaCaixa.Add(rev);
         }
         public void RemoverRevistadaCaixa(Revista rev)
         {
-            if(listaRevistasNaCaixa.Count > 0)
+            if(ListaRevistasNaCaixa.Count > 0)
             {
-                listaRevistasNaCaixa.Remove(rev);
+                ListaRevistasNaCaixa.Remove(rev);
             }
+        }
+
+        internal void EditarCaixa(string corCaixa, string etiqueta, int numero)
+        {
+            this._corCaixa = corCaixa;
+            this._etiqueta = etiqueta;
+            this._numero = numero;
         }
     }
 }

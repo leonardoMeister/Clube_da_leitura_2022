@@ -35,15 +35,15 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 {
                     
                     Reserva rev = controladorReserva.SelecionarRegistroPorId(new Reserva(id));
-                    if (rev.statusFoiEmprestada ==true)
+                    if (rev.StatusFoiEmprestada ==true)
                     {
                         ImprimirFinalizacao("Reserva já foi emprestada.\nTente novamente");
                         return;
                     }
-                    Emprestimo emp = rev.TransformarEmEmprestimo(DateTime.Now.AddDays( rev.revistaReserva.categoria.quantidadeDias));
-                    controladorEmprestimo.AdicionarRegistro(emp);
-                    rev.statusFoiEmprestada = true;
+                    Emprestimo emp = rev.TransformarEmEmprestimo(DateTime.Now.AddDays( rev.RevistaReserva.Categoria.QuantidadeDias));
 
+                    controladorEmprestimo.AdicionarRegistro(emp);
+                    
                     ImprimirFinalizacao("Reserva transformada em emprestimo.", ConsoleColor.Green);
                 }
                 else
@@ -66,20 +66,19 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 if (controladorReserva.ExisteRegistroComEsteId(id))
                 {
                     Reserva rev = controladorReserva.SelecionarRegistroPorId(new Reserva(id));
-                    if (rev.statusFoiEmprestada == true)
+                    if (rev.StatusFoiEmprestada == true)
                     {
                         ImprimirFinalizacao("Reserva já foi emprestada.\nTente novamente");
                         return;
                     }
-                    else if (rev.statusCancelada == true)
+                    else if (rev.StatusCancelada == true)
                     {
                         ImprimirFinalizacao("Reserva já foi Cancelada.\nTente novamente");
                         return;
                     }
-                    rev.statusCancelada = true;
-                    rev.amigoReserva.revistaEmprestada = null;
-                    rev.revistaReserva.statusGuardada = true;
 
+                    rev.DarBaixaReserva();
+                   
                     ImprimirFinalizacao("Reserva Cancelada com sucesso.", ConsoleColor.Green);
                 }
                 else
@@ -120,8 +119,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
             Reserva rese = new Reserva(amigo,revista);
             controladorReserva.AdicionarRegistro(rese);
-            amigo.revistaEmprestada = revista;
-            revista.statusGuardada = false;
+
+            rese.SetarDadosAmigoRevista(revista, false);
 
             ImprimirFinalizacao("Reserva Adicionada Com sucesso", ConsoleColor.Green);
         }
@@ -139,11 +138,11 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 foreach (Reserva t in lista)
                 {
                     string aux = t.PegarStatusReserva();
-                    if (t.statusCancelada == true) aux = "Reserva Cancelada";
-                    else if (t.statusFoiEmprestada == true) aux = "Reserva Foi Emprestada";
+                    if (t.StatusCancelada == true) aux = "Reserva Cancelada";
+                    else if (t.StatusFoiEmprestada == true) aux = "Reserva Foi Emprestada";
                     else  aux = "Reserva Ativa";
                     
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.amigoReserva.nome, t.revistaReserva.tipoColecao, aux);
+                    Console.WriteLine(configuracaColunasTabela, t._id, t.AmigoReserva.Nome, t.RevistaReserva.TipoColecao, aux);
                 }
             }
             else

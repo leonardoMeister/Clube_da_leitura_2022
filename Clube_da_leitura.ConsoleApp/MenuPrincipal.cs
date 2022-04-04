@@ -87,29 +87,29 @@ namespace Clube_da_leitura.ConsoleApp
 
 
             Emprestimo emp1 = new Emprestimo(m1, r2, new DateTime(2021, 3, 27));
-            emp1.statusDevolucao = true;
+            emp1.StatusDevolucao = true;
 
             Emprestimo emp2 = new Emprestimo(m2, r1, DateTime.Now);
-            emp2.statusDevolucao = true;
+            emp2.StatusDevolucao = true;
 
             Emprestimo emp3 = new Emprestimo(m3, r3, new DateTime(2020, 6, 27));
-            m3.revistaEmprestada = r3;
-            r3.statusGuardada = false;
+            m3.SetRevista(r3);
+            r3.StatusGuardada = false;
 
             controladorEmprestimo.AdicionarRegistro(emp1);
             controladorEmprestimo.AdicionarRegistro(emp2);
             controladorEmprestimo.AdicionarRegistro(emp3);
 
             Reserva rev1 = new Reserva(m2, r2);
-            m2.revistaEmprestada = r2;
-            r2.statusGuardada = false;
+            m2.SetRevista(r2);
+            r2.StatusGuardada = false;
 
 
             Reserva rev2 = new Reserva(m3, r1);
-            rev2.statusCancelada = true;
+            rev2.StatusCancelada = true;
 
             Reserva rev3 = new Reserva(m2, r3);
-            rev3.statusCancelada = true;
+            rev3.StatusCancelada = true;
 
             controladorReserva.AdicionarRegistro(rev1);
             controladorReserva.AdicionarRegistro(rev2);
@@ -127,7 +127,9 @@ namespace Clube_da_leitura.ConsoleApp
                 int opcao = Convert.ToInt32(Console.ReadLine());
 
                 ICadastravel tela = PegarTelaDesejada(opcao);
+                
                 bool deveContinuar = true;
+
                 while (deveContinuar)
                 {
                     if (tela == null) continue;

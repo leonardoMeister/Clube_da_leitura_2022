@@ -8,31 +8,39 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
 {
     public class Reserva: EntidadeBase
     {
-        public Amigo amigoReserva;
-        public Revista revistaReserva;
-        public DateTime dataCriacaoReserva;
-        public DateTime dataVencimentoReserva;
+        private Amigo _amigoReserva;
+        private Revista _revistaReserva;
+        private DateTime _dataCriacaoReserva;
+        private DateTime _dataVencimentoReserva;
+        private bool _statusCancelada;
+        private bool _statusFoiEmprestada;
 
         private static int idEstatico = 1;
-        public bool statusCancelada;
-        public bool statusFoiEmprestada;
+
+        public Amigo AmigoReserva { get => _amigoReserva; }
+        public Revista RevistaReserva { get => _revistaReserva; }
+        public DateTime DataCriacaoReserva { get => _dataCriacaoReserva;}
+        public DateTime DataVencimentoReserva { get => _dataVencimentoReserva;}
+        public bool StatusCancelada { get => _statusCancelada; set => _statusCancelada = value; }
+        public bool StatusFoiEmprestada { get => _statusFoiEmprestada;}
+
         protected void AtribuirId()
         {
-            this.id = idEstatico;
+            this._id = idEstatico;
             idEstatico++;
         }
         public Reserva(int id)
         {
-            this.id = id;
+            this._id = id;
         }
         public Reserva(Amigo amigo, Revista rev)
         {
-            this.statusFoiEmprestada = false;
-            this.statusCancelada = false;
-            this.dataCriacaoReserva = DateTime.Now;
-            this.dataVencimentoReserva = (DateTime.Now).AddDays(2);
-            this.amigoReserva = amigo;
-            this.revistaReserva = rev;
+            this._statusFoiEmprestada = false;
+            this._statusCancelada = false;
+            this._dataCriacaoReserva = DateTime.Now;
+            this._dataVencimentoReserva = (DateTime.Now).AddDays(2);
+            this._amigoReserva = amigo;
+            this._revistaReserva = rev;
             AtribuirId();
         }
         public string PegarStatusReserva()
@@ -41,7 +49,7 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         }
         public bool ReservaEstaVencida()
         {
-            if (dataVencimentoReserva < DateTime.Now)
+            if (DataVencimentoReserva < DateTime.Now)
             {
                 return true;
             }
@@ -49,12 +57,24 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
         }
         public Emprestimo TransformarEmEmprestimo(DateTime dataVencimentoEmprestimo)
         {
-            this.statusFoiEmprestada = true;
+            this._statusFoiEmprestada = true;
 
-            Emprestimo emp = new Emprestimo(amigoReserva, revistaReserva, DateTime.Now);
+            Emprestimo emp = new Emprestimo(AmigoReserva, RevistaReserva, DateTime.Now);
 
             return emp;
         }
 
+        internal void DarBaixaReserva(bool statusCancelada = true, bool statusRevistaGuardada =true)
+        {
+            _statusCancelada = statusCancelada;
+            AmigoReserva.SetRevista(null);
+            RevistaReserva.StatusGuardada = statusRevistaGuardada;
+        }
+
+        internal void SetarDadosAmigoRevista(Revista revista, bool statusRevistaGuardada = false)
+        {
+            _amigoReserva.SetRevista(revista);
+            revista.StatusGuardada = statusRevistaGuardada;
+        }
     }
 }

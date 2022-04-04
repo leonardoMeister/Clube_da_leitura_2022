@@ -32,10 +32,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 int numeroCaixa = Convert.ToInt32(Console.ReadLine());
 
                 Caixa caixa = controladorCaixa.SelecionarRegistroPorId(new Caixa(id));
-
-                caixa.corCaixa = corCaixa;
-                caixa.etiqueta = etiquetaCaixa;
-                caixa.numero = numeroCaixa;
+                caixa.EditarCaixa(corCaixa,etiquetaCaixa,numeroCaixa);
 
                 ImprimirFinalizacao("Item Editado com Sucesso!", ConsoleColor.Green);
             }
@@ -51,7 +48,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
             if (controladorCaixa.ExisteRegistroComEsteId(id))
             {
                 Caixa caixa = controladorCaixa.SelecionarRegistroPorId(new Caixa(id));
-                if (caixa.listaRevistasNaCaixa.Count > 0)
+                if (caixa.ListaRevistasNaCaixa.Count > 0)
                 {
                     ImprimirFinalizacao("Não é possivel remover uma caixa com Revistas Dentro.\nTente novamente");
                     return;
@@ -93,7 +90,7 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
                 foreach (Caixa t in lista)
                 {
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.corCaixa, t.etiqueta, t.numero);
+                    Console.WriteLine(configuracaColunasTabela, t._id, t.CorCaixa, t.Etiqueta, t.Numero);
                 }
             }
             else

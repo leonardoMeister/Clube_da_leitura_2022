@@ -8,6 +8,6 @@ namespace Clube_da_leitura.ConsoleApp.Dominio
 {
     public class EntidadeBase
     {
-        public int id;
+        public int _id; 
     }
 }

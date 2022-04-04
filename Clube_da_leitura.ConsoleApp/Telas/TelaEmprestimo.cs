@@ -36,7 +36,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                     string stringData = Console.ReadLine();
                     DateTime novaDataDevolucao = new DateTime(Convert.ToInt32(stringData.Substring(0, 4)), Convert.ToInt32(stringData.Substring(5, 2)), Convert.ToInt32(stringData.Substring(8, 2)));
 
-                    emp.dataVencimento = novaDataDevolucao;
+                    emp.EditarEmprestimo(novaDataDevolucao);
+
                     ImprimirFinalizacao("Emprestimo Editado Com Sucesso.", ConsoleColor.Green);
                 }
                 else
@@ -57,10 +58,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
                 if (controladorEmprestimo.ExisteRegistroComEsteId(id))
                 {
                     Emprestimo emp = controladorEmprestimo.SelecionarRegistroPorId(new Emprestimo(id));
+                    emp.FazerDevolucaoEmprestimo();
 
-                    emp.statusDevolucao = true;
-                    emp.amigoEmprestimo.revistaEmprestada = null;
-                    emp.revista.statusGuardada = true;
                     ImprimirFinalizacao("Emprestimo Devolvido,Revista guardada na caixa,Amigo Pode Emprestar Novamente!", ConsoleColor.Green);
                 }
                 else
@@ -104,8 +103,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
             Emprestimo emp = new Emprestimo(amigo, revista, dataCriacao);
             controladorEmprestimo.AdicionarRegistro(emp);
-            amigo.revistaEmprestada = revista;
-            revista.statusGuardada = false;
+            amigo.SetRevista(revista);
+            revista.StatusGuardada = false;
             ImprimirFinalizacao("Emprestimo Adicionado Com sucesso", ConsoleColor.Green);
 
         }
@@ -147,8 +146,8 @@ namespace Clube_da_leitura.ConsoleApp.Telas
 
                 foreach (Emprestimo t in listEmp)
                 {
-                    string auxStatusDevolv = (t.statusDevolucao) ? "Devolvido" : "Emprestado";
-                    Console.WriteLine(configuracaColunasTabela, t.id, t.amigoEmprestimo.nome, t.revista.tipoColecao, t.dataCriacao, t.dataVencimento, auxStatusDevolv);
+                    string auxStatusDevolv = (t.StatusDevolucao) ? "Devolvido" : "Emprestado";
+                    Console.WriteLine(configuracaColunasTabela, t._id, t.AmigoEmprestimo.Nome, t.Revista.TipoColecao, t.DataCriacao, t.DataVencimento, auxStatusDevolv);
                 }
             }
             else
